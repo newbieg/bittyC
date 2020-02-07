@@ -1,0 +1,60 @@
+#include "error.h"
+#include <string>
+#include <utils.h>
+
+
+error::error()
+{
+	errorNum = ERRMAX;
+	errorDesc = "No Errors detected\n";
+	errorName = "None: ";
+	hasError = false;
+}
+
+std::string error::toString()
+{
+	if(line > 0)
+	{
+		return errorName + errorDesc;
+	}
+	return errorName + errorDesc + toStr(line);
+}
+
+void error::setError(err errName, std::string filePath, int line)
+{
+	errorNum = errName;
+	switch(errName)
+	{
+		case SYNTAX:
+			errorDesc = filePath;
+			errorDesc += "- Syntax error found on line ";
+			errorDesc += toStr(line);
+			errorName = "Syntax: ";
+			hasError = true;
+		break;
+		case BADFILE:
+			errorDesc = "Could not load file ";
+			errorDesc += filePath;
+			errorName = "Bad File Input: ";
+			hasError = true;
+		break;
+		case EMPTYFILE:
+			errorDesc = "Parser was asked to load an empty file ";
+			errorDesc += filePath;
+			errorName = "Bad File Input: ";
+			hasError = true;
+		break;
+
+		default:
+			errorDesc = "No Errors detected";
+			errorName = "None: ";
+			hasError = false;
+		break;
+	}
+}
+
+
+
+
+
+

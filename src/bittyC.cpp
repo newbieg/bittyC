@@ -4,6 +4,8 @@
 #include <string>
 
 #include "core.h"
+#include "utils.h"
+#include "parse.h"
 
 // This is a compiler that reads some cpp file and outputs x86_64 assembly
 // It would be nice to bootrap it to itself, so limiting the included libraries
@@ -17,6 +19,8 @@ void help()
 
 int main(int argc, char ** argv)
 {
+	
+	std::string filePath;
 	// get the command line args
 	// Will attempt to mimic Gnu-Gcc inputs so Makefiles can be easilly modified
 	for(int i = 1; i < argc; i ++)
@@ -68,12 +72,13 @@ int main(int argc, char ** argv)
 		else if(!strcmp(argv[i], "-V"))
 		{
 			// verbose output while compiling
-			std::cout << "Version: "<< COREVERSION << std::endl;
 		}
 		else if(!strcmp(argv[i], "--version"))
 		{
 			// send version to stdout and exit without further processing
 			// std::cout << compilerName << " " << compilerVersion << '\n' << compilerDescription << '\n';
+			std::cout << "Version: "<< COREVERSION << std::endl;
+			exit(0);
 		}
 		else
 		{
@@ -82,5 +87,8 @@ int main(int argc, char ** argv)
 
 		}
 	}
-		
+	parser p;
+	p.loadFile(filePath.c_str());
+	std::cout << p.getError().toString() << std::endl;
+
 }

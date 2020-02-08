@@ -7,6 +7,7 @@ enum err
 {
 	SYNTAX, 
 	BADFILE,
+	NOTCODE,
 	EMPTYFILE,
 	UNKNOWN,
 	ERRMAX

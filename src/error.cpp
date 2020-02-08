@@ -38,6 +38,12 @@ void error::setError(err errName, std::string filePath, int line)
 			errorName = "Bad File Input: ";
 			hasError = true;
 		break;
+		case NOTCODE:
+			errorDesc = "Parser was asked to load a file not ending in .cpp or .h: ";
+			errorDesc += filePath;
+			errorName = "Bad File Input: ";
+			hasError = true;
+		break;
 		case EMPTYFILE:
 			errorDesc = "Parser was asked to load an empty file ";
 			errorDesc += filePath;

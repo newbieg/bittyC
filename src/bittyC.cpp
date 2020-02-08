@@ -84,11 +84,18 @@ int main(int argc, char ** argv)
 		{
 			// include argv[i] as filePath to code 
 			// issue error if not a *.cpp or *.h file
+			filePath = argv[i];
 
 		}
 	}
 	parser p;
 	p.loadFile(filePath.c_str());
+	std::string temp;
+	while(temp != "EOF")
+	{
+		temp = p.getNext();
+		std::cout << temp << std::endl;
+	}
 	std::cout << p.getError().toString() << std::endl;
 
 }

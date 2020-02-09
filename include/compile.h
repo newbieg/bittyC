@@ -10,11 +10,13 @@ class compiler
 	compiler();
 
 	void load(std::string filePath);
-	string next();
+	void compile();
+	std::string getCode();
 
 
 	private:
 
 	parser *Parser;
 	error Error;
+	
 };

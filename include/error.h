@@ -20,11 +20,12 @@ class error
 	error();
 	std::string toString();
 	void setError(err errName, std::string, int line);
+	err getError();
 	
 
 
 	private:
-	int errorNum;
+	err errorNum;
 	int line;
 	std::string fileName;
 	std::string errorName;

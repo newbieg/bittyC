@@ -60,6 +60,10 @@ void error::setError(err errName, std::string filePath, int line)
 }
 
 
+err error::getError()
+{
+	return errorNum;
+}
 
 
 

@@ -6,6 +6,7 @@
 #include "core.h"
 #include "utils.h"
 #include "parse.h"
+#include "compile.h"
 
 // This is a compiler that reads some cpp file and outputs x86_64 assembly
 // It would be nice to bootrap it to itself, so limiting the included libraries
@@ -88,14 +89,10 @@ int main(int argc, char ** argv)
 
 		}
 	}
-	parser p;
-	p.loadFile(filePath.c_str());
+	compiler c;
+	c.load(filePath.c_str());
 	std::string temp;
-	while(temp != "EOF")
-	{
-		temp = p.getNext();
-		std::cout << temp << std::endl;
-	}
-	std::cout << p.getError().toString() << std::endl;
+
+	std::cout << c.getError().toString() << std::endl;
 
 }

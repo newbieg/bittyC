@@ -2,20 +2,27 @@
 
 #include "parse.h"
 #include "error.h"
+#include "compile.h"
 
 compiler::compiler()
 {
 
 }
 
-void compiler::load(std::string filePath)
+bool compiler::load(std::string filePath)
 {
-
+	return Parser.loadFile(filePath);
 }
 
-std::string compiler::next()
+void compiler::compile()
 {
+	
+	
+}
 
+error compiler::getError()
+{
+	return Error;
 }
 
 

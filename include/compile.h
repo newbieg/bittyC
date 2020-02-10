@@ -9,14 +9,17 @@ class compiler
 	public:
 	compiler();
 
-	void load(std::string filePath);
+	bool load(std::string filePath);
 	void compile();
 	std::string getCode();
+
+	error getError();
+	void setError(err, std::string fileName, int line);
 
 
 	private:
 
-	parser *Parser;
+	parser Parser;
 	error Error;
 	
 };

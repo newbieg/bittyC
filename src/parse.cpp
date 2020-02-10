@@ -79,16 +79,14 @@ std::string parser::getNext()
 					temp += "//";
 					blockComment = true;
 				}
-				else if(code[cursor+1] == '/')
-				{
-					temp += "//";
-				}
 			}
 			else if(code[cursor] == '*')
 			{
 				if(code[cursor+1] == '/')
 				{
 					blockComment = false;
+					cursor ++;
+					continue;
 				}
 			}
 			if(startGet)
@@ -112,16 +110,18 @@ std::string parser::getNext()
 				line ++;
 				temp += ' ';
 			}
+			else if(code[cursor] == '+')
+			{
+				temp += '+';
+			}
 			else if(code[cursor] == '\t')
 			{
 				// do nothing	
 			}
-			/*
 			else if(code[cursor] == ' ')
 			{
 				temp += ' ';
 			}
-			*/
 			else if(code[cursor] == '(')
 			{
 				temp += '(';

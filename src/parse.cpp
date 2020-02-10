@@ -87,7 +87,7 @@ std::string parser::getNext()
 				}
 				if(blockComment)
 				{
-					temp += "//";
+					 temp += "//";
 				}
 			}
 			startGet = false;

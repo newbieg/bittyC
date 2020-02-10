@@ -97,7 +97,7 @@ std::string dropLeadWhiteSpace(std::string text, int start)
 	{
 		if(text[i] == ' '){}
 		else if(text[i] == '\t'){}
-		else()
+		else
 		{
 			start = i;
 			break;

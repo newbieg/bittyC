@@ -90,8 +90,18 @@ int main(int argc, char ** argv)
 		}
 	}
 	compiler c;
+	parser p;
 	c.load(filePath.c_str());
+	p.loadFile(filePath.c_str());
 	std::string temp;
+	
+	while(temp != "EOF")
+	{
+		temp = p.getNext();
+		std::cout << temp << "\n";
+	}
+
+	c.compile();
 
 	std::cout << c.getError().toString() << std::endl;
 

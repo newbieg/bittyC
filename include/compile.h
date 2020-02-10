@@ -14,12 +14,13 @@ class compiler
 	std::string getCode();
 
 	error getError();
-	void setError(err, std::string fileName, int line);
+	void setError(err, std::string filePath, int line);
 
 
 	private:
 
 	parser Parser;
 	error Error;
+	std::string fileName;
 	
 };

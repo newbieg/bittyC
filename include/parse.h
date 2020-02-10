@@ -22,6 +22,7 @@ class parser
 	std::string getNext();
 	error getError();
 	bool isCommonSyntax(char chr);
+	int getLine();
 
 	private:
 	std::string code;

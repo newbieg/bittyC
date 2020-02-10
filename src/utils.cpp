@@ -91,6 +91,21 @@ std::string toStr(int number)
 
 
 
+std::string dropLeadWhiteSpace(std::string text, int start)
+{
+	for(int i = start; i < text.length(); i ++)
+	{
+		if(text[i] == ' '){}
+		else if(text[i] == '\t'){}
+		else()
+		{
+			start = i;
+			break;
+		}
+	}
+	return text.substr(start);
+}
+
 
 
 

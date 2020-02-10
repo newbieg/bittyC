@@ -12,7 +12,7 @@
 parser::parser()
 {
 	cursor = 0;
-	commonSyntax = "\\ \"\'!.?<>,_:;%=[]-+*&|";
+	commonSyntax = "\"\'\\!.?<>,_:;%=[]-+*&|";
 	blockComment = false;
 	showLines = true;
 }
@@ -24,6 +24,11 @@ bool parser::isCommonSyntax(char chr)
 		return true;
 	}
 	return false;
+}
+
+int parser::getLine()
+{
+	return line;
 }
 
 bool parser::loadFile(std::string filePath)
@@ -55,6 +60,7 @@ bool parser::loadFile(std::string filePath)
 	{
 		er.setError(EMPTYFILE, filePath, -1);
 	}
+	line = 1;
 	return true;
 }
 
@@ -69,31 +75,15 @@ std::string parser::getNext()
 	bool startGet = true;
 	if(cursor < code.length())
 	{
+		bool lineComment = false;
 		bool getMore = true;
 		while(getMore)
 		{
-			if(code[cursor] == '/')
-			{
-				if(code[cursor+1] == '*')
-				{
-					temp += "//";
-					blockComment = true;
-				}
-			}
-			else if(code[cursor] == '*')
-			{
-				if(code[cursor+1] == '/')
-				{
-					blockComment = false;
-					cursor ++;
-					continue;
-				}
-			}
 			if(startGet)
 			{
 				if(showLines)
 				{
-					temp += toStr(line);
+					temp = toStr(line);
 				}
 				if(blockComment)
 				{
@@ -101,6 +91,30 @@ std::string parser::getNext()
 				}
 			}
 			startGet = false;
+			if(code[cursor] == '/')
+			{
+				if(code[cursor+1] == '*')
+				{
+					getMore = false;
+					blockComment = true;
+					cursor += 3;
+					continue;
+				}
+				else if(code[cursor+1] == '/')
+				{
+					lineComment = true;
+				}
+			}
+			else if(code[cursor] == '*')
+			{
+				if(code[cursor+1] == '/')
+				{
+					blockComment = false;
+					cursor += 2;
+					getMore = false;
+					break;
+				}
+			}
 			if(isAlpha(code[cursor]) || isDecimal(code[cursor]))
 			{
 				temp += code[cursor];
@@ -109,10 +123,23 @@ std::string parser::getNext()
 			{
 				line ++;
 				temp += ' ';
+				if(lineComment)
+				{
+					getMore = false;
+					break;
+				}
+				if(blockComment)
+				{
+					getMore = false;
+				}
 			}
 			else if(code[cursor] == '+')
 			{
 				temp += '+';
+			}
+			else if(code[cursor] == '=')
+			{
+				temp += '=';
 			}
 			else if(code[cursor] == '\t')
 			{
@@ -160,11 +187,14 @@ std::string parser::getNext()
 				er.setError(SYNTAX, fileName, line);
 				getMore = false;
 			}
+
+
 			cursor ++;
 			if(cursor > code.length())
 			{
 				getMore = false;
 			}
+
 		}
 		return temp;
 	}

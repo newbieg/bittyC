@@ -1,14 +1,18 @@
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include "parse.h"
 #include "error.h"
 #include "compile.h"
+#include "variables.h"
+#include "utils.h"
 
 compiler::compiler()
 {
-
+	localVarCount = 0;
 }
+
 
 bool compiler::load(std::string filePath)
 {
@@ -20,7 +24,9 @@ void compiler::compile()
 {
 	std::string head = ".file ";
 	head += fileName;
-	head += "\n.text";
+	head += "\n.text\n";
+
+	assembly = head;
 
 	std::string cCode;
 	cCode = Parser.getNext();
@@ -34,8 +40,41 @@ void compiler::compile()
 		{
 			break;
 		}
-		std::cout << cCode << std::endl;
-		int parenthPos = cCode.find("(", 0);
+		int pos = cCode.find('+', 0);
+		if(pos != std::string::npos)
+		{
+			std::string first = previousWord(cCode, pos);
+			std::string second = nextWord(cCode, pos);
+			bool isIntF = false;
+			bool isIntS = false;
+			int f, s;
+			// need to determine if first is a known variable, or an actual number
+			if(isDecimal(first[0]))
+			{
+				isIntF = true;
+				f = toInt(first.c_str());
+			}
+			else
+			{
+				// add new variable "first" on the stack at localVarCount * -1;
+				localVarCount ++;
+				assembly += "movl Wait, This is a work in progress, I have to get ready for work, so I need to stop here." ; 
+			}
+
+			if(isDecimal(second[0]))
+			{
+				isIntS = true;
+				s = toInt(second.c_str());
+			}
+			else
+			{
+				// add new variable "first" on the stack at localVarCount * -1;
+				localVarCount ++;
+				assembly += "movl "; 
+			}
+
+
+		}
 
 		int isVoidInput = cCode.find("()", 0);
 		int additionPos = std::string::npos != cCode.find("+", 0);
@@ -48,6 +87,21 @@ void compiler::compile()
 	}
 	
 
+}
+
+bool compiler::write(std::string outFilePath)
+{
+	std::ofstream ofile(outFilePath.c_str());
+	if(ofile.good())
+	{
+		ofile << assembly;
+		return true;
+	}
+	else
+	{
+		Error.setError(BADOUTFILE, outFilePath, 0);
+	}
+	return false;
 }
 
 error compiler::getError()

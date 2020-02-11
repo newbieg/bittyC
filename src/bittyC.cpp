@@ -22,6 +22,7 @@ int main(int argc, char ** argv)
 {
 	
 	std::string filePath;
+	std::string outFile = "out.s";
 	// get the command line args
 	// Will attempt to mimic Gnu-Gcc inputs so Makefiles can be easilly modified
 	for(int i = 1; i < argc; i ++)
@@ -38,6 +39,8 @@ int main(int argc, char ** argv)
 		else if(!strcmp(argv[i], "-o"))
 		{
 			// set output fileName
+			i ++;
+			outFile = argv[i];
 		}
 		else if(!strcmp(argv[i], "-Wall"))
 		{
@@ -90,19 +93,20 @@ int main(int argc, char ** argv)
 		}
 	}
 	compiler c;
-	parser p;
+//	parser p;
 	c.load(filePath.c_str());
-	p.loadFile(filePath.c_str());
+//	p.loadFile(filePath.c_str());
+	/*
 	std::string temp;
-	
 	while(temp != "EOF")
 	{
 		temp = p.getNext();
 		std::cout << temp << "\n";
 	}
-
+*/
 	c.compile();
 
 	std::cout << c.getError().toString() << std::endl;
+	c.write(outFile);
 
 }

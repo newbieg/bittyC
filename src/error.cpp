@@ -38,6 +38,12 @@ void error::setError(err errName, std::string filePath, int line)
 			errorName = "Bad File Input: ";
 			hasError = true;
 		break;
+		case BADOUTFILE:
+			errorDesc = "Could not write to file, check file permissions and paths: ";
+			errorDesc += filePath;
+			errorName = "Bad File Output: ";
+			hasError = true;
+		break;
 		case NOTCODE:
 			errorDesc = "Parser was asked to load a file not ending in .cpp or .h: ";
 			errorDesc += filePath;

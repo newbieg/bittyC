@@ -2,6 +2,7 @@
  */
 #include <string>
 #include <cstring>
+#include <iostream>
 
 char toUpper(char chr)
 {
@@ -31,7 +32,32 @@ bool isAlpha(char chr)
 	return false; 
 }
 
-int toInt(char *number)
+bool matchFind(std::string word, std::string lineCode)
+{
+	int pos = lineCode.find(word, 0);
+	if(pos != std::string::npos)
+	{
+		if(pos + word.length() + 1 < lineCode.length())
+		{
+			char after = lineCode[pos+word.length() + 1];
+			if(isAlpha(after) || isDecimal(after))
+			{
+				return false;
+			}
+		}
+		if(pos > 0)
+		{
+			char before = lineCode[pos - 1];
+			if(isAlpha(before) || isDecimal(before))
+			{
+				return false;
+			}
+		}
+	}
+	return false;
+}
+
+int toInt(const char *number)
 {
 	int output = 0;
 	int start = 0;
@@ -90,24 +116,40 @@ std::string toStr(int number)
 }
 
 
-
-std::string dropLeadWhiteSpace(std::string text, int start)
+std::string previousWord(std::string text, int start)
 {
-	for(int i = start; i < text.length(); i ++)
+	std::string ret;
+	start --;
+	for(int i = start; (text[i] == ' ' || text[i] == '\t') && start > 0; i --)
 	{
-		if(text[i] == ' '){}
-		else if(text[i] == '\t'){}
-		else
-		{
-			start = i;
-			break;
-		}
+		start = i - 1;
 	}
-	return text.substr(start);
+
+	for(int i = start; (text[i] != ' ' && text[i] != '\t') && i > 0; i --)
+	{
+		ret += text[i];
+	}
+	ret = reverse(ret);
+	return ret;
+	
 }
 
+std::string nextWord(std::string text, int start)
+{
+	std::string ret;
+	start ++;
+	int len = text.length();
+	for(int i = start; (text[i] == ' ' || text[i] == '\t') && start < len; i ++)
+	{
+		start = i + 1;
+	}
 
-
-
-
+	for(int i = start; (text[i] != ' ' && text[i] != '\t') && i < len; i ++)
+	{
+		ret += text[i];
+	}
+	ret = reverse(ret);
+	return ret;
+	
+}
 

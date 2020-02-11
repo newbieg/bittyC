@@ -184,7 +184,8 @@ std::string parser::getNext()
 			}
 			else
 			{
-				er.setError(SYNTAX, fileName, line);
+				std::string notes = fileName + ": " + code[cursor] + "\n";
+				er.setError(SYNTAX, notes, line);
 				getMore = false;
 			}
 

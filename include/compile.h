@@ -15,6 +15,7 @@ class compiler
 
 	error getError();
 	void setError(err, std::string filePath, int line);
+	bool write(std::string outputFilePath);
 
 
 	private:
@@ -22,5 +23,7 @@ class compiler
 	parser Parser;
 	error Error;
 	std::string fileName;
+	std::string assembly;
+	int localVarCount;
 	
 };

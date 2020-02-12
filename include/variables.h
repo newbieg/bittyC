@@ -10,8 +10,12 @@ class var
 	public:
 	var();
 	var(std::string varName, std::string varType);
+	// add a user defined type (like a class, struct, typedef)
+	void addAllowedType(std::string newType);
+
 	std::string name;
 	std::string type;
+	std::string allowedTypes;
 };
 
 

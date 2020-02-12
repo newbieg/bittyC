@@ -1,14 +1,21 @@
+#ifndef BITTYC_VARIABLESANDTYPES
+#define BITTYC_VARIABLESANDTYPES
 // Use this struct to keep track of a variable's 
 // place on the stack.
 
 #include <string>
 
-class Int
+class var
 {
 	public:
+	var();
+	var(std::string varName, std::string varType);
 	std::string name;
-	int stackAddr;
-	int registerAddr;
-	int value;
-
+	std::string type;
 };
+
+
+
+
+
+#endif

@@ -13,3 +13,10 @@ void scoper(){
 	int another = real3+9;
 
 }
+
+
+int main()
+{
+	scope();
+	scoper();
+}

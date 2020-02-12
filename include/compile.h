@@ -1,7 +1,9 @@
 #include <string>
+#include <vector>
 
 #include "parse.h"
 #include "error.h"
+#include "variables.h"
 
 // takes a parser's tokens and produces assembly output
 class compiler
@@ -25,5 +27,6 @@ class compiler
 	std::string fileName;
 	std::string assembly;
 	int localVarCount;
+	std::vector <var> vars;
 	
 };

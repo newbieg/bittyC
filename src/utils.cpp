@@ -4,6 +4,8 @@
 #include <cstring>
 #include <iostream>
 
+#include "utils.h"
+
 char toUpper(char chr)
 {
 	if(chr >= 'a' && chr <= 'z')
@@ -32,14 +34,14 @@ bool isAlpha(char chr)
 	return false; 
 }
 
-bool matchFind(std::string word, std::string lineCode)
+bool matchFind(std::string word, std::string lineCode, int & pos)
 {
-	int pos = lineCode.find(word, 0);
+	pos = lineCode.find(word, pos);
 	if(pos != std::string::npos)
 	{
 		if(pos + word.length() + 1 < lineCode.length())
 		{
-			char after = lineCode[pos+word.length() + 1];
+			char after = lineCode[pos+word.length()];
 			if(isAlpha(after) || isDecimal(after))
 			{
 				return false;
@@ -53,6 +55,7 @@ bool matchFind(std::string word, std::string lineCode)
 				return false;
 			}
 		}
+		return true;
 	}
 	return false;
 }
@@ -148,8 +151,19 @@ std::string nextWord(std::string text, int start)
 	{
 		ret += text[i];
 	}
-	ret = reverse(ret);
 	return ret;
 	
 }
 
+bool isLeftOf(std::string first, std::string second, std::string codeLine)
+{
+
+	int firstPos, secondPos;
+	matchFind(first, codeLine,firstPos);
+	matchFind(second, codeLine, secondPos);
+	if(firstPos == std::string::npos || secondPos == std::string::npos)
+	{
+		return false;
+	}
+	return firstPos < secondPos;
+}

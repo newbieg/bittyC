@@ -155,6 +155,19 @@ std::string nextWord(std::string text, int start)
 	
 }
 
+std::string dropWhiteSpace(std::string input)
+{
+	std::string temp = "";
+	for(int i = 0; i < input.length(); i ++)
+	{
+		if(input[i] != ' ' && input[i] != '\t')
+		{
+			temp += input[i];
+		}
+	}
+	return temp;
+}
+
 bool isLeftOf(std::string first, std::string second, std::string codeLine)
 {
 

@@ -1,1 +1,1 @@
-int var = 2;
+int var = 2 + 5 + real;

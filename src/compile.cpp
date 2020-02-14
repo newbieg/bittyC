@@ -20,6 +20,32 @@ bool compiler::load(std::string filePath)
 	fileName = filePath;
 	return Parser.loadFile(filePath);
 }
+
+// eat away at a math expression
+std::string compiler::expression(std::string left, std::string right)
+{
+	std::string temp = dropWhiteSpace(left);
+	std::string command = "";
+	size_t pos = right.find('+', 0);
+	if(pos != std::string::npos)
+	{
+		command = expression(right.substr(0, pos), right.substr(pos+1));
+		if(std::string::npos == right.find('+', pos + 1))
+		{
+			command += "add r3, " + dropWhiteSpace(right) + ", r3\n";
+		}
+		if(temp.size() > 0)
+		{
+			command += "add r3, " + temp + ", r3\n";
+		}
+	}
+	pos = right.find('-', 0);
+	pos = right.find('*', 0);
+	pos = right.find('/', 0);
+
+	return command;
+}
+
 /* void compiler::compile()
  * This has a lot of different options. My current version just slams into
  * the line and hopes to find something interesting that it can use. This

@@ -19,6 +19,17 @@ class compiler
 	void setError(err, std::string filePath, int line);
 	bool write(std::string outputFilePath);
 
+	// commands
+	// std::string negate(std::string num);
+	std::string add(std::string left, std::string right);
+	std::string subract(std::string left, std::string right);
+	std::string assign(std::string left, std::string right);
+	std::string multiply(std::string left, std::string right);
+	std::string divide(std::string left, std::string right);
+
+	std::string expression(std::string left, std::string right);
+
+
 
 	private:
 

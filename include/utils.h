@@ -19,6 +19,7 @@ std::string toStr(int number);
 // drop the initial whitespace up until the first command.
 std::string previousWord(std::string text, int start);
 std::string nextWord(std::string text, int start);
+std::string dropWhiteSpace(std::string input);
 
 // returns true if first is to the left of second in the codeLine
 // returns false if first is to the right, or if either first or second are not found in codeLine

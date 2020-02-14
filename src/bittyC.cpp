@@ -93,18 +93,13 @@ int main(int argc, char ** argv)
 		}
 	}
 	compiler c;
-//	parser p;
-	c.load(filePath.c_str());
-//	p.loadFile(filePath.c_str());
 	/*
-	std::string temp;
-	while(temp != "EOF")
-	{
-		temp = p.getNext();
-		std::cout << temp << "\n";
-	}
-*/
+	c.load(filePath.c_str());
 	c.compile();
+	*/
+	std::string tst = " 34 + 105 + 8 + real + 99 +bob +JILL + andrw + ken+same";
+	std::string empty = "";
+	std::cout << c.expression("", tst);
 
 	std::cout << c.getError().toString() << std::endl;
 	c.write(outFile);

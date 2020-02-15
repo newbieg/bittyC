@@ -121,7 +121,7 @@ std::string toStr(int number)
 
 std::string previousWord(std::string text, int start)
 {
-	std::string ret;
+	std::string ret = "";
 	start --;
 	for(int i = start; (text[i] == ' ' || text[i] == '\t') && start > 0; i --)
 	{
@@ -139,7 +139,7 @@ std::string previousWord(std::string text, int start)
 
 std::string nextWord(std::string text, int start)
 {
-	std::string ret;
+	std::string ret = "";
 	start ++;
 	int len = text.length();
 	for(int i = start; (text[i] == ' ' || text[i] == '\t') && start < len; i ++)

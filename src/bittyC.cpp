@@ -93,13 +93,8 @@ int main(int argc, char ** argv)
 		}
 	}
 	compiler c;
-	/*
 	c.load(filePath.c_str());
 	c.compile();
-	*/
-	std::string tst = " 34 + 105 + 8 + real + 99 +bob +JILL + andrw + ken+same";
-	std::string empty = "";
-	std::cout << c.expression("", tst);
 
 	std::cout << c.getError().toString() << std::endl;
 	c.write(outFile);

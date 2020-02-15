@@ -102,6 +102,13 @@ void compiler::compile()
 				assembly += "(%rbp)\n";
 			}
 		}
+		pos = 0;
+		if(matchFind("return", cCode, pos))
+		{
+			assembly += "movl $";
+			assembly += nextWord(cCode, pos + 6);
+			assembly += ", %eax\nret\n";
+		}
 		/*
 		pos = cCode.find('+', 0);
 		if(pos != std::string::npos)

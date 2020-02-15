@@ -19,4 +19,5 @@ int main()
 {
 	scope();
 	scoper();
+	return 123411;
 }

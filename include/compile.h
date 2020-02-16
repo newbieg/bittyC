@@ -29,6 +29,9 @@ class compiler
 
 	std::string expression(std::string left, std::string right);
 
+	std::string label(std::string name);
+	std::string openScope();
+
 
 
 	private:
@@ -39,5 +42,7 @@ class compiler
 	std::string assembly;
 	int localVarCount;
 	std::vector <var> vars;
+
+	int scopeCount; 
 	
 };

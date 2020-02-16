@@ -32,7 +32,9 @@ std::string compiler::expression(std::string left, std::string right)
 		command = expression(right.substr(0, pos), right.substr(pos+1));
 		if(std::string::npos == right.find('+', pos + 1))
 		{
-			command += "add r3, " + dropWhiteSpace(right) + ", r3\n";
+			//command += "add r3, " + dropWhiteSpace(right) + ", r3\n";
+			command += "add r3, " + nextWord(right, pos) + ", r3\n";
+			command += "add r3, " + previousWord(right, pos) + ", r3\n";
 		}
 		if(temp.size() > 0)
 		{
@@ -101,6 +103,18 @@ void compiler::compile()
 				assembly += toStr((vars.size() - 1) * -4);
 				assembly += "(%rbp)\n";
 			}
+		}
+		pos = 0;
+		if(matchFind("if", cCode, pos))
+		{
+			// need to figure out a scope mechanism first
+			// including accessing the nearest nested variables.
+			// come back here after variables are tracked and
+			// scoped correctly.
+			//
+			// order of operations return if()? 
+			// if(){return val}
+			// return val==3?val:other
 		}
 		pos = 0;
 		if(matchFind("return", cCode, pos))

@@ -1,4 +1,3 @@
-int timer();
 
 int main()
 {

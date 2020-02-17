@@ -31,8 +31,11 @@ class compiler
 
 	std::string label(std::string name);
 	std::string openScope();
-
-
+	std::string closeScope();
+	// will return the opening of an assembly function with name 
+	// later with some kind of name mangling for C++?
+	std::string openFunction(std::string name);
+	std::string closeFunction()
 
 	private:
 
@@ -41,6 +44,7 @@ class compiler
 	std::string fileName;
 	std::string assembly;
 	int localVarCount;
+	int labelCount;
 	std::vector <var> vars;
 
 	int scopeCount; 

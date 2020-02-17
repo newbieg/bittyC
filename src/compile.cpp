@@ -48,6 +48,31 @@ std::string compiler::expression(std::string left, std::string right)
 	return command;
 }
 
+std::string compiler::openScope()
+{
+	// leave labels to openFunction(), don't see point in
+	// giving each scope a label at this point...
+	return "pushq %rbp\nmovq %rsp, %rbp\n";
+}
+std::string compiler::closeScope()
+{
+	return "popq %rbp\n";
+}
+
+std::string compiler::openFunction(std::string name)
+{
+	// at this point we will skip name mangle to be C compliant
+	// later we will add when c++ is defined.
+	std::string ret = ".globl " + name + '\n';
+	ret += ".type " + name + ", @function\n" + openScope();
+
+}
+
+std::string compiler::closeFunction()
+{
+	return closeScope() + "ret\n";
+}
+
 /* void compiler::compile()
  * This has a lot of different options. My current version just slams into
  * the line and hopes to find something interesting that it can use. This

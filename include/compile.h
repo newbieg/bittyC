@@ -35,7 +35,7 @@ class compiler
 	// will return the opening of an assembly function with name 
 	// later with some kind of name mangling for C++?
 	std::string openFunction(std::string name);
-	std::string closeFunction()
+	std::string closeFunction();
 
 	private:
 

@@ -64,13 +64,15 @@ std::string compiler::openFunction(std::string name)
 	// at this point we will skip name mangle to be C compliant
 	// later we will add when c++ is defined.
 	std::string ret = ".globl " + name + '\n';
-	ret += ".type " + name + ", @function\n" + openScope();
-
+	ret += ".type " + name + ", @function\n";
+	ret += name + ":\n";
+	return ret;
 }
 
+// need to figure out the whole return a type calue deal...
 std::string compiler::closeFunction()
 {
-	return closeScope() + "ret\n";
+	 return closeScope() + "ret\n";
 }
 
 /* void compiler::compile()
@@ -106,6 +108,13 @@ void compiler::compile()
 		int pos = 0;
 		if(matchFind("int", cCode, pos))
 		{
+			if(nextWord(cCode, pos + 3).find("(") != std::string::npos)
+			{
+				std::cout << "int returning Function found!\n";
+				std::string functNameCall = openFunction(nextWord(cCode, pos + 3));
+				std::string functionName = functNameCall.substr(0, functNameCall.find("("));
+				assembly += functionName + '\n';
+			}
 			// use vector to keep track of address on stack by index
 			vars.push_back(var(nextWord(cCode, pos), "int"));
 			std::string val = "0";

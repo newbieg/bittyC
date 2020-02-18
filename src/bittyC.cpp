@@ -95,13 +95,11 @@ int main(int argc, char ** argv)
 
 	
 	compiler c;
-	/*
 	c.load(filePath.c_str());
 	c.compile();
-	*/
 
-	std::string test = "3+4+5+var+ vari + variable";
-	std::cout << c.expression("", test);
+//	std::string test = "3+4+5+var+ vari + variable";
+//	std::cout << c.expression("", test);
 
 	std::cout << c.getError().toString() << std::endl;
 	c.write(outFile);

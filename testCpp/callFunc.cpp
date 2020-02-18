@@ -1,4 +1,8 @@
 
+int timer()
+{
+	return 7;
+}
 int main()
 {
 	timer();
@@ -7,9 +11,4 @@ int main()
 
 
 
-int timer()
-{
-
-	return 7;
-}
 

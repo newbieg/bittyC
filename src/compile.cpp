@@ -11,6 +11,7 @@
 
 compiler::compiler()
 {
+	scopeDepth = 0;
 	localVarCount = 0;
 }
 
@@ -52,27 +53,52 @@ std::string compiler::openScope()
 {
 	// leave labels to openFunction(), don't see point in
 	// giving each scope a label at this point...
+	scopeDepth ++;
 	return "pushq %rbp\nmovq %rsp, %rbp\n";
 }
-std::string compiler::closeScope()
+
+std::string compiler::closeScope(std::string retVal)
 {
-	return "popq %rbp\n";
+	std::string scopeCloser = "";
+	if(retVal.size() >= 1)
+	{
+		scopeCloser += indent() + "movl $" +retVal + ", %eax\n";
+	}
+	scopeCloser += indent() + "popq %rbp\n";
+	scopeDepth --;
+	if(scopeDepth < 0)
+	{
+		std::cout << "Scope Depth went negative, scope mismatch in compiler\n";
+		scopeDepth = 0;
+	}
+	return scopeCloser;
 }
 
 std::string compiler::openFunction(std::string name)
 {
 	// at this point we will skip name mangle to be C compliant
 	// later we will add when c++ is defined.
-	std::string ret = ".globl " + name + '\n';
-	ret += ".type " + name + ", @function\n";
-	ret += name + ":\n";
+	std::string ret = indent() + ".globl " + name + '\n';
+	ret += indent() + ".type " + name + ", @function\n";
+	ret += indent() + name + ":\n";
+	ret += indent() + openScope();
 	return ret;
 }
 
 // need to figure out the whole return a type calue deal...
 std::string compiler::closeFunction()
 {
-	 return closeScope() + "ret\n";
+	 return indent() + closeScope("0") + "ret\n";
+}
+
+std::string compiler::indent()
+{
+	std::string tabs = "";
+	for(int i = 0; i < scopeDepth; i ++)
+	{
+		tabs += "\t";
+	}
+	return tabs;
 }
 
 /* void compiler::compile()
@@ -133,7 +159,7 @@ void compiler::compile()
 			else
 			{
 				// asign 0 to new variable
-				assembly += "movl $0,";
+				assembly += indent() + "movl $0,";
 				assembly += toStr((vars.size() - 1) * -4);
 				assembly += "(%rbp)\n";
 			}
@@ -153,9 +179,7 @@ void compiler::compile()
 		pos = 0;
 		if(matchFind("return", cCode, pos))
 		{
-			assembly += "movl $";
-			assembly += nextWord(cCode, pos + 6);
-			assembly += ", %eax\nret\n";
+			assembly += closeFunction();
 		}
 		/*
 		pos = cCode.find('+', 0);
@@ -200,8 +224,8 @@ void compiler::compile()
 		cCode = Parser.getNext();
 	}
 
-	assembly += "popq %rbp\n";
-	assembly += "ret\n";
+	assembly += indent() + "popq %rbp\n";
+	assembly += indent() + "ret\n";
 }
 
 bool compiler::write(std::string outFilePath)

@@ -3,12 +3,14 @@
 pushq %rbp
 movq %rsb, %rbp
 .globl timer
-movl $0,(%rbp)
-movl $7;, %eax
+	movl $0,(%rbp)
+	movl $0, %eax
+	popq %rbp
 ret
 .globl main
-movl $0,-4(%rbp)
-movl $0;, %eax
+	movl $0,-4(%rbp)
+	movl $0, %eax
+	popq %rbp
 ret
 popq %rbp
 ret

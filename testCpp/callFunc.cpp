@@ -1,7 +1,10 @@
 
 int timer()
 {
-	return 7;
+	int five = 5;
+	int six = 6;
+	int seven = 7;
+	return seven;
 }
 int main()
 {

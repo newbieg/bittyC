@@ -54,7 +54,7 @@ std::string compiler::openScope()
 	// leave labels to openFunction(), don't see point in
 	// giving each scope a label at this point...
 	scopeDepth ++;
-	return "pushq %rbp\nmovq %rsp, %rbp\n";
+	return "pushq %rbp\n" + indent() + "movq %rsp, %rbp\n";
 }
 
 std::string compiler::closeScope(std::string retVal)
@@ -134,12 +134,23 @@ void compiler::compile()
 		int pos = 0;
 		if(matchFind("int", cCode, pos))
 		{
-			if(nextWord(cCode, pos + 3).find("(") != std::string::npos)
+			// check if function decl;
+			std::string  name = nextWord(cCode, pos + 3);
+			int isFunction = name.find("(");
+			if(isFunction != std::string::npos)
 			{
+				name = name.substr(0, name.find("("));
 				std::cout << "int returning Function found!\n";
-				std::string functNameCall = openFunction(nextWord(cCode, pos + 3));
-				std::string functionName = functNameCall.substr(0, functNameCall.find("("));
-				assembly += functionName + '\n';
+				
+				// check if function definition
+				if(cCode.find("{") != std::string::npos)
+				{
+					
+					std::cout << name << ":    above has definition\n";
+					std::string functNameCall = openFunction(name);
+					std::cout << functNameCall << std::endl;
+					assembly += functNameCall + '\n';
+				}
 			}
 			// use vector to keep track of address on stack by index
 			vars.push_back(var(nextWord(cCode, pos), "int"));

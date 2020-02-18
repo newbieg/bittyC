@@ -12,5 +12,3 @@ ret
 	movl $0, %eax
 	popq %rbp
 ret
-popq %rbp
-ret

@@ -224,8 +224,6 @@ void compiler::compile()
 		cCode = Parser.getNext();
 	}
 
-	assembly += indent() + "popq %rbp\n";
-	assembly += indent() + "ret\n";
 }
 
 bool compiler::write(std::string outFilePath)

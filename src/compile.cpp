@@ -153,7 +153,7 @@ void compiler::compile()
 				}
 			}
 			// use vector to keep track of address on stack by index
-			vars.push_back(var(nextWord(cCode, pos), "int"));
+			vars.push_back(var(nextWord(cCode, pos), "int", 0));
 			std::string val = "0";
 			std::cout << "Found an int init\n";
 			int valPos = cCode.find("=", pos);

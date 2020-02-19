@@ -4,18 +4,28 @@
 // place on the stack.
 
 #include <string>
+#include <set>
+
+#include "error.h"
 
 class var
 {
 	public:
 	var();
-	var(std::string varName, std::string varType);
+	var(std::string varName, std::string varType, int address);
 	// add a user defined type (like a class, struct, typedef)
 	void addAllowedType(std::string newType);
+	bool isAllowedType(std::string checkType);
+	int getAddress();
+	void setAddress(int val);
 
+
+	private:
 	std::string name;
 	std::string type;
-	std::string allowedTypes;
+	int address;
+	static std::set <std::string> allowedTypes;
+	error er;
 };
 
 

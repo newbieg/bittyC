@@ -50,6 +50,13 @@ void error::setError(err errName, std::string filePath, int line)
 			errorName = "Bad File Input: ";
 			hasError = true;
 		break;
+		case BADVARTYPE:
+			errorDesc = "Variable type is not viable: ";
+			errorDesc += filePath;
+			errorDesc += toStr(line);
+			errorName = "Invalid variable type";
+			hasError = true;
+		break;
 		case EMPTYFILE:
 			errorDesc = "Parser was asked to load an empty file ";
 			errorDesc += filePath;

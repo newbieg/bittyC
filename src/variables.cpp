@@ -27,15 +27,24 @@ void var::addAllowedType(std::string newType)
 }
 
 
+bool var::isAllowedType(std::string checkType)
+{
+	return allowedTypes.find(checkType) != allowedTypes.end();
+	
+}
 int var::getAddress()
 {
 	return address;
 }
 
-bool var::isAllowedType(std::string checkType)
+void var::setAddress(int val)
 {
-	return allowedTypes.find(checkType) != allowedTypes.end();
-	
+	address = val;
+}
+
+bool var::equal(var other)
+{
+	return address == other.getAddress();
 }
 
 

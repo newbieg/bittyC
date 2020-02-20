@@ -8,7 +8,10 @@ timer:
 	pushq %rbp
 	movq %rsp, %rbp
 
-	movl $0,(%rbp)
+	movl $0,-4(%rbp)
+\Need to work on var definition next
+\Need to work on var definition next
+\Need to work on var definition next
 	movl $0, %eax
 	popq %rbp
 ret
@@ -18,7 +21,7 @@ main:
 	pushq %rbp
 	movq %rsp, %rbp
 
-	movl $0,-16(%rbp)
+	movl $0,-20(%rbp)
 	movl $0, %eax
 	popq %rbp
 ret

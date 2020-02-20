@@ -18,6 +18,7 @@ class var
 	bool isAllowedType(std::string checkType);
 	int getAddress();
 	void setAddress(int val);
+	bool equal(var other);
 
 
 	private:

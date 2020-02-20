@@ -134,7 +134,7 @@ void compiler::compile()
 		int pos = 0;
 		if(matchFind("int", cCode, pos))
 		{
-			// check if function decl;
+			// check if a function declarative or definitive;
 			std::string  name = nextWord(cCode, pos + 3);
 			int isFunction = name.find("(");
 			if(isFunction != std::string::npos)
@@ -151,28 +151,36 @@ void compiler::compile()
 					std::cout << functNameCall << std::endl;
 					assembly += functNameCall + '\n';
 				}
+				//continue;
 			}
-			// use vector to keep track of address on stack by index
-			vars.push_back(var(nextWord(cCode, pos), "int", 0));
+
+			// wasn't a function, so it is a variable? 
 			std::string val = "0";
 			std::cout << "Found an int init\n";
 			int valPos = cCode.find("=", pos);
 			if(cCode[valPos+1] == '=')
 			{
+				// int dec has "=="
 				Error.setError(SYNTAX, fileName + ": " + cCode, Parser.getLine()-1);
+				return;
 			}
 			if(valPos != std::string::npos)
 			{
 				val = nextWord(cCode, valPos);
 				std::cout << "Setting a variable to " << val << std::endl;
+				vars.push_back(var(nextWord(cCode, pos), "int", 0));
+				assembly += "\\\\Need to work on var definition next\n";
 				// need function to process right-side of equation
+				// see expression();
 			}
 			else
 			{
 				// asign 0 to new variable
+				int addr = (1 + vars.size()) * -4;
 				assembly += indent() + "movl $0,";
-				assembly += toStr((vars.size() - 1) * -4);
+				assembly += toStr(addr);
 				assembly += "(%rbp)\n";
+				vars.push_back(var(nextWord(cCode, pos), "int", addr));
 			}
 		}
 		pos = 0;

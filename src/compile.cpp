@@ -27,7 +27,7 @@ std::string compiler::expression(std::string left, std::string right)
 {
 	std::string temp = dropWhiteSpace(left);
 	std::string command = "";
-	size_t pos = right.find('+', 0);
+	int pos = right.find('+', 0);
 	if(pos != std::string::npos)
 	{
 		command = expression(right.substr(0, pos), right.substr(pos+1));
@@ -112,9 +112,17 @@ std::string compiler::indent()
 
 void compiler::compile()
 {
+	var voidType;
+	voidType.addAllowedType("void");
+	voidType.addAllowedType("int");
+	voidType.addAllowedType("double");
+	voidType.addAllowedType("float");
+	voidType.addAllowedType("long");
+	voidType.addAllowedType("short");
+	voidType.addAllowedType("char");
 	std::string head = ".file ";
 	head += fileName;
-	head += "\n.text\npushq %rbp\nmovq %rsb, %rbp\n";
+	head += "\n.text\n";
 
 	assembly = head;
 
@@ -126,21 +134,30 @@ void compiler::compile()
 		// many projects contain more comments than code, 
 		// and parser may push even more into the mix.
 		// jump to next loop iteration if comment found first
-		if(std::string::npos != cCode.find("\\", 0))
+		if(std::string::npos != cCode.find("//", 0))
 		{
-			break;
+			std::string comment = cCode.substr(cCode.find("//"));
+			cCode = cCode.substr(0, comment.length());
+			assembly += comment + '\n';
+			std::cout << "// Found a line comment\n";
+			
 		}
 	// Check for int init
 		int pos = 0;
-		if(matchFind("int", cCode, pos))
+		//if(matchFind("int", cCode, pos).) // side-tracked.
+		std::string declarator = voidType.getDeclarator(cCode, pos);
+		std::cout << '(' << cCode << ')';
+		if(!(declarator.empty()))
 		{
 			// check if a function declarative or definitive;
-			std::string  name = nextWord(cCode, pos + 3);
+			pos += declarator.length();
+			std::string  name = nextWord(cCode, pos);
+			std::cout << '-' << name << ":";
 			int isFunction = name.find("(");
 			if(isFunction != std::string::npos)
 			{
 				name = name.substr(0, name.find("("));
-				std::cout << "int returning Function found!\n";
+				std::cout << declarator << " returning Function found!\n";
 				
 				// check if function definition
 				if(cCode.find("{") != std::string::npos)
@@ -156,7 +173,7 @@ void compiler::compile()
 
 			// wasn't a function, so it is a variable? 
 			std::string val = "0";
-			std::cout << "Found an int init\n";
+			std::cout << "Found an " << declarator << " init\n";
 			int valPos = cCode.find("=", pos);
 			if(cCode[valPos+1] == '=')
 			{
@@ -168,8 +185,8 @@ void compiler::compile()
 			{
 				val = nextWord(cCode, valPos);
 				std::cout << "Setting a variable to " << val << std::endl;
-				vars.push_back(var(nextWord(cCode, pos), "int", 0));
-				assembly += "\\\\Need to work on var definition next\n";
+				vars.push_back(var(nextWord(cCode, pos), declarator, 0));
+				assembly += "//Need to work on var definition next\n";
 				// need function to process right-side of equation
 				// see expression();
 			}
@@ -180,7 +197,7 @@ void compiler::compile()
 				assembly += indent() + "movl $0,";
 				assembly += toStr(addr);
 				assembly += "(%rbp)\n";
-				vars.push_back(var(nextWord(cCode, pos), "int", addr));
+				vars.push_back(var(nextWord(cCode, pos), declarator, addr));
 			}
 		}
 		pos = 0;

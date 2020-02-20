@@ -1,15 +1,29 @@
 
 int timer()
 {
+	// this is a comment
 	int five = 5;
-	int six = 6;
-	int seven = 7;
+	char six = 6;
+	float seven = 7;
 	return seven;
+
 }
+
+
+
+
+void guessWhat()
+{
+	return;
+}
+
+
+
+
 int main()
 {
 	timer();
-	return 0;
+	return 37;
 }
 
 

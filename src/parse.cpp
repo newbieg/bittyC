@@ -14,7 +14,7 @@ parser::parser()
 	cursor = 0;
 	commonSyntax = "\"\'\\!.?<>,_:;%=[]-+*&|";
 	blockComment = false;
-	showLines = true;
+	showLines = false;
 }
 
 bool parser::isCommonSyntax(char chr)

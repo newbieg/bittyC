@@ -22,8 +22,8 @@ std::string reverse(std::string str);
 std::string toStr(int number);
 // given text starts with whiteSpace and contains commands and further whiteSpace, 
 // drop the initial whitespace up until the first command.
-std::string previousWord(std::string text, int start);
-std::string nextWord(std::string text, int start);
+std::string previousWord(std::string text, int &start);
+std::string nextWord(std::string text, int &start);
 std::string dropWhiteSpace(std::string input);
 
 // returns true if first is to the left of second in the codeLine

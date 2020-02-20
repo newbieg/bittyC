@@ -162,7 +162,7 @@ std::string toStr(int number)
 }
 
 
-std::string previousWord(std::string text, int start)
+std::string previousWord(std::string text, int &start)
 {
 	std::string ret = "";
 	start --;
@@ -180,7 +180,7 @@ std::string previousWord(std::string text, int start)
 	
 }
 
-std::string nextWord(std::string text, int start)
+std::string nextWord(std::string text, int &start)
 {
 	std::string ret = "";
 	start ++;

@@ -1,4 +1,7 @@
+#include <iostream>
+
 #include "variables.h"
+#include "utils.h"
 
 std::set<std::string> var::allowedTypes;
 
@@ -26,12 +29,29 @@ void var::addAllowedType(std::string newType)
 	allowedTypes.emplace(newType);
 }
 
-
 bool var::isAllowedType(std::string checkType)
 {
 	return allowedTypes.find(checkType) != allowedTypes.end();
-	
 }
+
+std::string var::getDeclarator(std::string line, int &pos)
+{
+	if(line.size() != 0)
+	{
+		std::string temp = nextWord(line, pos);
+		while(!(temp == ""))
+		{
+			if(isAllowedType(temp))
+			{
+				return temp;
+			}
+			pos += temp.length() + 1;
+			temp = nextWord(line, pos);
+		}
+	}
+		return (std::string) "";
+}
+
 int var::getAddress()
 {
 	return address;

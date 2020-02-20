@@ -16,6 +16,7 @@ class var
 	// add a user defined type (like a class, struct, typedef)
 	void addAllowedType(std::string newType);
 	bool isAllowedType(std::string checkType);
+	std::string getDeclarator(std::string lineOfCode, int & pos);
 	int getAddress();
 	void setAddress(int val);
 	bool equal(var other);

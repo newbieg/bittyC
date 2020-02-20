@@ -1,6 +1,8 @@
 # test folder and any test files
 test/*
 test*
+*.s
+
 # Prerequisites
 *.d
 

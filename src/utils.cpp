@@ -34,6 +34,49 @@ bool isAlpha(char chr)
 	return false; 
 }
 
+bool isLabel(std::string label)
+{
+	if(!(isAlpha(label[0]) || label[0] == '_'))
+	{
+		return false;
+	}
+	for(int i = 1; i < label.length(); i ++)
+	{
+		if(!(isAlpha(label[i]) || isDecimal(label[i])))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool isConst(std::string number)
+{
+	bool onePeriod = false;
+	for(int i = 0; i < number.length(); i ++)
+	{
+		if(!(isDecimal(number[i])))
+		{
+			if(!onePeriod)
+			{
+				if(number[i] == '.')
+				{
+					onePeriod = true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 bool matchFind(std::string word, std::string lineCode, int & pos)
 {
 	pos = lineCode.find(word, pos);

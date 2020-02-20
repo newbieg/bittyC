@@ -8,6 +8,11 @@
 char toUpper(char chr);
 bool isDecimal(char chr);
 bool isAlpha(char chr);
+// check if the given varOrFunction is a viable name,
+// not containing arithmetic, and not a const number;
+bool isLabel(std::string varOrFunction);
+// check if the given number is just that.
+bool isConst(std::string number);
 // look for exact match of a word in a codeLine, 
 // return true if found, 
 // set pos to first letter if found, std::string::npos if not

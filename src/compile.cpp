@@ -120,9 +120,9 @@ void compiler::compile()
 	voidType.addAllowedType("long");
 	voidType.addAllowedType("short");
 	voidType.addAllowedType("char");
-	std::string head = ".file ";
+	std::string head = ".file \"";
 	head += fileName;
-	head += "\n.text\n";
+	head += "\"\n.text\n";
 
 	assembly = head;
 

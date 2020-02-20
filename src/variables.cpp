@@ -57,9 +57,26 @@ int var::getAddress()
 	return address;
 }
 
+std::string var::getType()
+{
+	return type;
+}
+
 void var::setAddress(int val)
 {
 	address = val;
+}
+
+void var::setType(std::string tp)
+{
+	if(isAllowedType(tp))
+	{
+		this->type = tp;
+	}
+	else
+	{
+		er.setError(BADVARTYPE, "typeUnknown " + tp, 0);
+	}
 }
 
 bool var::equal(var other)

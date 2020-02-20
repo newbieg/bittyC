@@ -17,6 +17,8 @@ class var
 	void addAllowedType(std::string newType);
 	bool isAllowedType(std::string checkType);
 	std::string getDeclarator(std::string lineOfCode, int & pos);
+	std::string getType();
+	void setType(std::string tp);
 	int getAddress();
 	void setAddress(int val);
 	bool equal(var other);

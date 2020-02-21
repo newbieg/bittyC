@@ -57,13 +57,9 @@ std::string compiler::openScope()
 	return "pushq %rbp\n" + indent() + "movq %rsp, %rbp\n";
 }
 
-std::string compiler::closeScope(std::string retVal)
+std::string compiler::closeScope()
 {
 	std::string scopeCloser = "";
-	if(retVal.size() >= 1)
-	{
-		scopeCloser += indent() + "movl $" +retVal + ", %eax\n";
-	}
 	scopeCloser += indent() + "popq %rbp\n";
 	scopeDepth --;
 	if(scopeDepth < 0)
@@ -86,9 +82,56 @@ std::string compiler::openFunction(std::string name)
 }
 
 // need to figure out the whole return a type calue deal...
-std::string compiler::closeFunction()
+std::string compiler::closeFunction(std::string retLine)
 {
-	 return indent() + closeScope("0") + "ret\n";
+	std::string returnString;
+	int pos = 0;
+	std::string retVal = "$0";
+	if(matchFind("return", retLine, pos))
+	{
+		pos += 6;
+		retVal = nextWord(retLine, pos);
+		int posEnd = retLine.find(";");
+		if(posEnd == std::string::npos)
+		{
+			Error.setError(SYNTAX, retLine, 0);
+		}
+		else
+		{
+			retVal = retVal.substr(0, retVal.find(';'));
+			if(retVal.empty())
+			{
+				retVal = "$0";
+			}
+			if(isLabel(retVal))
+			{
+				// is either a var or function
+				// if funct then call before return
+				// if var then mov
+/*				if(vars.isInVars(retVal))
+				{
+					// Now time to replace vec vars
+					// with the new container (depth)
+					//
+					// find the first matching var
+					// in the vars vec and we then
+					// set retVal to the address on 
+					// the stack so it can be moved 
+					// to %eax...
+				}
+*/
+			}
+			std::cout << "RETURN VAL: " << retVal << "\n";
+		}
+
+	}
+
+	if(retVal.size() >= 1)
+	{
+		 returnString += indent() + "movl " + retVal + ", %eax\n";
+
+	}
+	return indent() + closeScope() + "ret\n";
 }
 
 std::string compiler::indent()
@@ -194,7 +237,7 @@ void compiler::compile()
 			{
 				// asign 0 to new variable
 				int addr = (1 + vars.size()) * -4;
-				assembly += indent() + "movl $0,";
+				assembly += indent() + "movl $0, ";
 				assembly += toStr(addr);
 				assembly += "(%rbp)\n";
 				vars.push_back(var(nextWord(cCode, pos), declarator, addr));
@@ -215,7 +258,7 @@ void compiler::compile()
 		pos = 0;
 		if(matchFind("return", cCode, pos))
 		{
-			assembly += closeFunction();
+			assembly += closeFunction(cCode);
 		}
 		/*
 		pos = cCode.find('+', 0);

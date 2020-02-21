@@ -34,6 +34,16 @@ bool var::isAllowedType(std::string checkType)
 	return allowedTypes.find(checkType) != allowedTypes.end();
 }
 
+void var::setDepth(int deep)
+{
+	scopeDepth = deep;
+}
+
+int var::getDepth()
+{
+	return scopeDepth;
+}
+
 std::string var::getDeclarator(std::string line, int &pos)
 {
 	if(line.size() != 0)
@@ -79,10 +89,77 @@ void var::setType(std::string tp)
 	}
 }
 
+std::string var::getName()
+{
+	return name;
+}
+
 bool var::equal(var other)
 {
 	return address == other.getAddress();
 }
+
+
+
+depth::depth()
+{
+	deep = 0;
+}
+
+void depth::addDepth()
+{
+	deep ++;
+}
+
+bool depth::addVar(var push)
+{
+	// only add var if it's name does not
+	// exist in the current depth...
+	for(int i = 0; i > 0 && vars[i].getDepth() == deep; i --)
+	{
+		if(push.getName() == vars[i].getName())
+		{
+			return false;
+		}
+	}
+	vars.push_back(push);
+	return true;
+}
+
+int depth::getDepth()
+{
+	return deep;
+}
+
+void depth::removeDepth()
+{
+	for(int i = vars.size(); i > 0; i --)
+	{
+		if(vars[i].getDepth() == deep)
+		{
+			vars.pop_back();
+		}
+		else
+		{
+			deep --;
+			return;
+		}
+	}
+}
+
+int depth::find(std::string label)
+{
+	for(int i = vars.size(); i > 0; i ++)
+	{
+		if(vars[i].getName() == label)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+
 
 
 

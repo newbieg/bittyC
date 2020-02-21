@@ -5,7 +5,7 @@ int timer()
 	int five = 5;
 	char six = 6;
 	float seven = 7;
-	return seven;
+	return seven ;
 
 }
 

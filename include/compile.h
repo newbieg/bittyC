@@ -22,6 +22,8 @@ class compiler
 	// commands
 	// std::string negate(std::string num);
 	std::string add(std::string left, std::string right);
+	bool addVar(var addLabel, int address);
+	bool isInVars(std::string label);
 	std::string subract(std::string left, std::string right);
 	std::string assign(std::string left, std::string right);
 	std::string multiply(std::string left, std::string right);
@@ -31,11 +33,11 @@ class compiler
 
 	std::string label(std::string name);
 	std::string openScope();
-	std::string closeScope(std::string retVal);
+	std::string closeScope();
 	// will return the opening of an assembly function with name 
 	// later with some kind of name mangling for C++?
 	std::string openFunction(std::string name);
-	std::string closeFunction();
+	std::string closeFunction(std::string returnLine);
 	std::string indent();
 
 	private:

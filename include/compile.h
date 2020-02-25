@@ -48,7 +48,8 @@ class compiler
 	std::string assembly;
 	int localVarCount;
 	int labelCount;
-	std::vector <var> vars;
+	//std::vector <var> vars;
+	depth vars;
 
 	int scopeDepth; 
 	

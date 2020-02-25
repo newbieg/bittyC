@@ -1,6 +1,6 @@
 #ifndef BITTYC_VARIABLESANDTYPES
 #define BITTYC_VARIABLESANDTYPES
-// Use this struct to keep track of a variable's 
+// Use this struct to keep track of a variable's
 // place on the stack.
 
 #include <string>
@@ -39,18 +39,24 @@ class var
 
 // Scope Depth is a grouping of variables, as depth increases new variables
 // with the same name can be created as "more local" than
-// earlier depths. 
+// earlier depths.
 class depth
 {
 	public:
 	depth();
 	void addDepth();
 	bool addVar(var newVar);
+	var get(int i);
 	int getDepth();
 	// remove all vars created at current depth
 	// and then decrement depth.
 	void removeDepth();
 	int find(std::string label);
+	int find(var variable);
+	// check the current depth for a variable of
+	// the same name (name-clashes)
+	bool isInDepth(var variable);
+	int size();
 
 
 	private:

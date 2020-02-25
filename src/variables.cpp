@@ -9,7 +9,7 @@ var::var()
 {
 	// void type or leave as empty?
 	// std::string types = "int char float double bool void  long long short const";
-	// Leave the definition/addition of allowed types completely to the compiler. 
+	// Leave the definition/addition of allowed types completely to the compiler.
 	// compiler will have to create an empty var first, good practice: call it void
 	// compiler then gives list of allowed var types.
 }
@@ -25,7 +25,7 @@ void var::addAllowedType(std::string newType)
 {
 	// might eventually add return of whether the
 	// returned pair indicates that the newType actually
-	// already existed. 
+	// already existed.
 	allowedTypes.emplace(newType);
 }
 
@@ -151,14 +151,43 @@ int depth::find(std::string label)
 {
 	for(int i = vars.size(); i > 0; i ++)
 	{
-		if(vars[i].getName() == label)
+		if(label.length() == vars[i].getName().length())
 		{
-			return i;
+			if(vars[i].getName() == label)
+			{
+				return i;
+			}
 		}
 	}
 	return -1;
 }
 
+var depth::get(int index)
+{
+    return vars[index];
+}
+
+int depth::find(var label)
+{
+	return this->find(label.getName());
+}
+
+bool depth::isInDepth(var check)
+{
+	for(int i = vars.size(); i > 0 && vars[i].getDepth() == deep; i ++)
+	{
+		if(vars[i].equal(check))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+int depth::size()
+{
+    return vars.size();
+}
 
 
 

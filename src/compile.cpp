@@ -115,8 +115,8 @@ std::string compiler::closeFunction(std::string retLine)
 					//
 					// find the first matching var
 					// in the vars vec and we then
-					// set retVal to the address on 
-					// the stack so it can be moved 
+					// set retVal to the address on
+					// the stack so it can be moved
 					// to %eax...
 				}
 */
@@ -174,7 +174,7 @@ void compiler::compile()
 	int count = 0;
 	while(cCode != "EOF" && count < 1000000)
 	{
-		// many projects contain more comments than code, 
+		// many projects contain more comments than code,
 		// and parser may push even more into the mix.
 		// jump to next loop iteration if comment found first
 		if(std::string::npos != cCode.find("//", 0))
@@ -183,7 +183,7 @@ void compiler::compile()
 			cCode = cCode.substr(0, comment.length());
 			assembly += comment + '\n';
 			std::cout << "// Found a line comment\n";
-			
+
 		}
 	// Check for int init
 		int pos = 0;
@@ -201,11 +201,11 @@ void compiler::compile()
 			{
 				name = name.substr(0, name.find("("));
 				std::cout << declarator << " returning Function found!\n";
-				
+
 				// check if function definition
 				if(cCode.find("{") != std::string::npos)
 				{
-					
+
 					std::cout << name << ":    above has definition\n";
 					std::string functNameCall = openFunction(name);
 					std::cout << functNameCall << std::endl;
@@ -214,7 +214,7 @@ void compiler::compile()
 				//continue;
 			}
 
-			// wasn't a function, so it is a variable? 
+			// wasn't a function, so it is a variable?
 			std::string val = "0";
 			std::cout << "Found an " << declarator << " init\n";
 			int valPos = cCode.find("=", pos);
@@ -226,9 +226,17 @@ void compiler::compile()
 			}
 			if(valPos != std::string::npos)
 			{
+
 				val = nextWord(cCode, valPos);
 				std::cout << "Setting a variable to " << val << std::endl;
-				vars.push_back(var(nextWord(cCode, pos), declarator, 0));
+				var nwVar = var(nextWord(cCode, pos), declarator, 0);
+				if(vars.isInDepth(nwVar))
+				{
+					// the variable name is not in current depth. OK to declare and/or define
+					vars.addVar(nwVar);
+
+
+				}
 				assembly += "//Need to work on var definition next\n";
 				// need function to process right-side of equation
 				// see expression();
@@ -240,7 +248,7 @@ void compiler::compile()
 				assembly += indent() + "movl $0, ";
 				assembly += toStr(addr);
 				assembly += "(%rbp)\n";
-				vars.push_back(var(nextWord(cCode, pos), declarator, addr));
+				vars.addVar(var(nextWord(cCode, pos), declarator, addr));
 			}
 		}
 		pos = 0;
@@ -251,7 +259,7 @@ void compiler::compile()
 			// come back here after variables are tracked and
 			// scoped correctly.
 			//
-			// order of operations return if()? 
+			// order of operations return if()?
 			// if(){return val}
 			// return val==3?val:other
 		}
@@ -279,7 +287,7 @@ void compiler::compile()
 			{
 				// add new variable "first" on the stack at localVarCount * -1;
 				localVarCount ++;
-				assembly += "movl Wait, This is a work in progress, I have to get ready for work, so I need to stop here." ; 
+				assembly += "movl Wait, This is a work in progress, I have to get ready for work, so I need to stop here." ;
 			}
 
 			if(isDecimal(second[0]))
@@ -291,7 +299,7 @@ void compiler::compile()
 			{
 				// add new variable "first" on the stack at localVarCount * -1;
 				localVarCount ++;
-				assembly += "movl "; 
+				assembly += "movl ";
 			}
 		}
 		*/
